@@ -1,47 +1,78 @@
 # This file includes methods that will parse the specific data we need from each of the deal boxes.
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from booking.pagenation import BookingPagenation
+import time, math
 
 
 class BookingReport:
     def __init__(self, boxes_section_element: WebDriver):
         self.boxes_section_element = boxes_section_element
-        self.deal_boxes = self.pull_deal_boxes()
+        # self.deal_boxes = self.pull_deal_boxes()
 
     def pull_deal_boxes(self):
-        return self.boxes_section_element.find_element_by_class_name(
-            "_814193827"
-        ).find_elements_by_css_selector('div[data-testid="property-card"]')
+        return (
+            self.boxes_section_element.find_element(
+                By.CSS_SELECTOR, 'div[data-component="arp-properties-list"]'
+            )
+            .find_element(By.CSS_SELECTOR, 'div[class="_814193827"]')
+            .find_elements(By.CSS_SELECTOR, 'div[data-testid="property-card"]')
+        )
 
     def pull_deal_box_attributes(self):
+
+        next_page = BookingPagenation(page=self.boxes_section_element)
+        count = next_page.get_property_count()
         collection = []
         collection_list = []
-        for deal_box in self.deal_boxes:
-            collection_dict = {}
 
-            hotel_name = (
-                deal_box.find_element_by_css_selector('div[data-testid="title"]')
-                .get_attribute("innerHTML")
-                .strip()
-            )
+        # controls the next_page looping:
+        for i in range(math.ceil(count / 25)):
+            for deal_box in self.pull_deal_boxes():
+                collection_dict = {}
+                hotel_name = (
+                    deal_box.find_element(By.CSS_SELECTOR, 'div[data-testid="title"]')
+                    .get_attribute("innerHTML")
+                    .strip()
+                )
+                try:
+                    hotel_type = (
+                        deal_box.find_element(
+                            By.CSS_SELECTOR, 'div[class="_371410fad"]'
+                        )
+                        .find_element(By.CSS_SELECTOR, 'div[role="link"]')
+                        .find_element(By.CSS_SELECTOR, 'span[class="_c5d12bf22"]')
+                        .get_attribute("innerHTML")
+                    )
 
-            hotel_price = deal_box.find_element_by_css_selector(
-                'span[class="fde444d7ef _e885fdc12"]'
-            ).get_attribute("innerHTML")
+                except NoSuchElementException:
+                    hotel_type = "None"
+                try:
+                    hotel_price = deal_box.find_element(
+                        By.CSS_SELECTOR, 'span[class="fde444d7ef _e885fdc12"]'
+                    ).get_attribute("innerHTML")
 
-            try:
-                hotel_score = deal_box.find_element_by_css_selector(
-                    'div[class="_9c5f726ff bd528f9ea6"]'
-                ).get_attribute("innerHTML")
+                except NoSuchElementException:
+                    hotel_price = str(0.0)
 
-            except NoSuchElementException:
+                try:
+                    hotel_score = deal_box.find_element(
+                        By.CSS_SELECTOR, 'div[class="_9c5f726ff bd528f9ea6"]'
+                    ).get_attribute("innerHTML")
 
-                hotel_score = str(0.0)
+                except NoSuchElementException:
+                    hotel_score = str(0.0)
 
-            collection.append([hotel_name, hotel_price, hotel_score])
-            collection_dict["hotel_name"] = hotel_name
-            collection_dict["hotel_price"] = hotel_price
-            collection_dict["hotel_score"] = hotel_score
-            collection_list.append(collection_dict)
+                collection.append([hotel_name, hotel_price, hotel_type, hotel_score])
+                collection_dict["hotel_name"] = hotel_name
+                collection_dict["hotel_price"] = hotel_price
+                collection_dict["hotel_type"] = hotel_type
+                collection_dict["hotel_score"] = hotel_score
+                collection_list.append(collection_dict)
+            print("page", i)
+            next_page.go_next_page()
+            time.sleep(15)
 
-        return collection, collection_list 
+        return collection, collection_list

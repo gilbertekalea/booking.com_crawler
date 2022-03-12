@@ -1,26 +1,62 @@
-hotel_name,hotel_price,hotel_score
-Auberge Alternative,"US$1,676",8.5
-Heart of Downtown Apartment close to everything,"US$1,733",
-Apartments Near Montreal Olympic Park,"US$1,950",8.0
-Parc Avenue Lofts,"US$2,207",7.2
-Drummond by Bouticstay,"US$2,446",6.2
-L'éco-logis,"US$2,256",9.7
-2314 Rue Duff Court,"US$2,493",9.0
-François-Denis Apartments,"US$2,547",9.0
-La Fontaine Suites,"US$2,563",8.1
-Boutique Notre Dame,"US$2,577",7.8
-Golden Castle,"US$2,620",7.9
-Sweet Suites in Montreal,"US$2,620",
-M Montreal Hostel,"US$2,452",9.0
-Prince Arthur Suites,"US$2,708",
-Homa Hôtel by Olympic Stadium!,"US$2,731",6.0
-Le P'tit Cousin,"US$2,777",8.9
-Hotel les Suites Labelle,"US$2,560",8.2
-BnbEra - The Rock Apartment,"US$2,796",
-Explore Montreal from Sleek Contemporary Apartment by Den Stays,"US$2,803",8.4
-APARTMENT HOTEL ST-DENIS,"US$2,811",7.6
-Faubourg Papineau,"US$2,841",
-Boutique Lofts Notre Dame,"US$2,867",8.8
-Trendy Little Italy 3 Bedroom Condo by Den Stays,"US$2,887",9.4
-MtlVacationRentals - Appartements Plateau-Mont-Royal,"US$2,679",8.9
-Boutique Hotel Saint Francois Xavier,"US$2,955",7.0
+hotel_name,hotel_price,hotel_type,hotel_score
+Le Mount Stephen,"US$20,400",Premium Queen Room,9.2
+Le Mille Neuf Furnished Apartments,"US$3,007",Two-Bedroom Apartment,9.3
+Le Square Phillips Hôtel &amp; Suites,"US$9,338",Family Suite,9.1
+Chateau Versailles,"US$10,162",Deluxe Double Room,7.7
+Lofts du Vieux-Port,"US$13,068",Two-Bedroom Apartment with 2 Bathrooms ,9.3
+Hotel Ruby Foo's,"US$7,164",Deluxe King Room,7.6
+François-Denis Apartments,"US$5,973",Studio with Balcony,9.3
+Le Petit Hotel Montreal,"US$18,256",King Room,9.2
+Hotel Gault,"US$20,142",Loft,9.1
+Hotel Nelligan,"US$20,118",King Room with Atrium View,9.2
+William Gray,"US$21,903",Standard King Room - Alcove,8.6
+Hotel St.Thomas,"US$14,113",Premium Quadruple Room,8.5
+Hôtel Le Germain Montréal,"US$16,717",The Classic Queen,9.0
+Sonder Gare Saint Denis,"US$5,699",Two-Bedroom Suite,8.9
+Auberge du Vieux Port,"US$17,537",Deluxe Queen Room with St. Paul Street View,9.0
+HOTEL10,"US$10,770",King Room,8.6
+Hotel Kutuma,"US$12,901",Junior Suite with One King Bed,8.8
+Le Nouvel Hotel,"US$9,691",Queen Room with Two Queen Beds,8.2
+Empire Suites,"US$9,630",Queen Room,6.4
+Auberge Alternative,"US$1,172",Bed in 10-Bed Mixed Dormitory Room,8.5
+Hotel St-Denis,"US$7,112",King Room,8.2
+L'Appartement Hôtel,"US$8,250",Queen Studio,8.7
+Auberge Les Bons Matins,"US$8,179",Comfort Suite,9.1
+Hôtel Alt Montréal,"US$9,167",Queen Room,8.9
+Auberge Le Pomerol,"US$7,506",Economy Double Room,7.9
+Hotel Newstar Montréal,"US$4,582",Standard Double Room with Two Double Beds,6.8
+La Loggia Art B&amp;B,"US$5,355",Queen Room with Shared Bathroom,9.4
+Sonder Saint Paul,"US$8,609",Deluxe Queen Room,7.7
+Hotel Auberge Manoir Ville Marie,"US$4,680",Family Room,6.8
+Le Relais Lyonnais,"US$10,913",Deluxe Queen Room,9.2
+Hotel Le Chablis Cadillac,"US$8,718",Deluxe Suite,6.8
+LELUX Hotel,"US$8,887",Double Room with Two Double Beds,6.9
+Hotel Place D'Armes,"US$17,420",One-Bedroom Suite,9.1
+Hôtel Le Cantlie Suites,"US$6,160",Executive Suite with 2 Double Beds,8.4
+Le Saint-Sulpice Hotel Montreal,"US$18,981",Signature Suite Two-Bedroom,9.2
+Studio with garden and wifi at Ville Marie Montreal,"US$3,315",One-Bedroom Studio,0.0
+Studio in Ville Marie Montreal with WiFi,"US$3,315",One-Bedroom Studio,0.0
+Studio with enclosed garden and wifi at Montreal,"US$3,307",One-Bedroom Studio,0.0
+Hotel Faubourg Montreal Centre-Ville Downtown,"US$4,713",One-Bedroom Suite with Two Queen Beds,7.7
+Hotel le Roberval,"US$3,020",One-Bedroom Suite with Murphy bed,7.9
+Terrasse Royale Hotel,"US$4,563",Superior Suite with Two Double Beds,8.8
+Auberge du Carre St-Louis,"US$7,735",Deluxe suite with queen bed and hot tub,7.9
+Hutchison Apartments by Restavio,"US$6,727",Standard Studio,0.0
+Montreal centre three bedroom apt 6min downtown 18min to airport,"US$2,626",Three-Bedroom Apartment,8.4
+Studio in Ville Marie Montreal with furnished garden and WiFi,"US$3,307",One-Bedroom Studio,0.0
+Studio in Ville Marie Montreal with furnished garden and WiFi,"US$3,315",One-Bedroom Studio,0.0
+Studio in Montreal with enclosed garden and WiFi,"US$3,315",One-Bedroom Studio,0.0
+Studio with furnished terrace and wifi at Montreal,"US$3,307",One-Bedroom Studio,0.0
+Cjour Apartments,"US$3,056",Deluxe Apartment,8.2
+Sonder at Penny Lane,"US$4,341",Standard Suite,8.4
+Sonder Le Guerin,"US$4,729",One-Bedroom Suite,8.6
+Griffintown Hôtel,"US$8,337",Deluxe Apartment,8.5
+Hôtel Saint-Laurent Montréal,"US$2,616",One-Bedroom Suite - Non-Smoking,8.1
+L'éco-logis,"US$2,995",One-Bedroom Apartment,9.7
+Sonder Le Victoria,"US$4,469",One-Bedroom Suite,8.2
+Parc Suites Hotel,"US$4,488",Deluxe Queen Suite,8.2
+in front of parc Baldwin Suite appartment,"US$2,061",One-Bedroom Apartment,6.5
+fully renovated Room Apartment Suite,"US$1,746",One-Bedroom Apartment,5.4
+Sweet Suites in Montreal,"US$5,513",Apartment with Balcony,0.0
+Golden Castle,"US$5,683",Deluxe Apartment,7.9
+Shiny Spacious Condo with Perfect View in Crescent,"US$5,068",Apartment with Balcony,8.0

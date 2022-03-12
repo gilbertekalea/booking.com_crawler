@@ -1,4 +1,5 @@
 from booking.booking import Booking
+import time
 
 # Context Management: close the browser.
 try:
@@ -8,17 +9,17 @@ try:
         bot.land_first_page()
         bot.change_currency(currency="USD")
         bot.select_place_to_go(place_to_go=input("Where do you want to go? : "))
+        bot.vocation_month(month=input("Which month you plan your vocation? : "))
         bot.select_dates(
             checkin=input("check in date YYYY-MM-DD? :"),
-            checkout=input("check out dates YYYY-DD-MM? :"),
+            duration=int(input("How long you planning to stay? : ")),
+            checkout=input("check out dates YYYY-MM-DD? :"),
         )
         bot.select_adult(adult=int(input("How many adults? :")), rooms=6)
         bot.click_search()
         bot.apply_filtration()
         bot.refresh()
         # work around to let the bot grab data properly
-        # Gives the bot a second to breath and grans the data the way we want it.
-
         bot.report_results()
 
 except Exception as e:
