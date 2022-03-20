@@ -1,26 +1,41 @@
 from booking.booking import Booking
 import time
-
-# Context Management: close the browser.
+from booking import constant as const
+from booking import helpers
 try:
     with Booking() as bot:
-        bot.maximize_window()
-        bot.implicitly_wait(30)
-        bot.land_first_page()
-        bot.change_currency(currency="USD")
-        bot.select_place_to_go(place_to_go=input("Where do you want to go? : "))
-        bot.vocation_month(month=input("Which month you plan your vocation? : "))
-        bot.select_dates(
-            checkin=input("check in date YYYY-MM-DD? :"),
-            duration=int(input("How long you planning to stay? : ")),
-            checkout=input("check out dates YYYY-MM-DD? :"),
-        )
-        bot.select_adult(adult=int(input("How many adults? :")), rooms=6)
-        bot.click_search()
-        bot.apply_filtration()
-        bot.refresh()
-        # work around to let the bot grab data properly
-        bot.report_results()
+        # The rate are generated automatically
+        GIVEN_DATE = helpers.construct_date(const.START_YEAR, const.START_MONTH, const.DURATION)
+
+        for i, date in enumerate(GIVEN_DATE):
+            bot.maximize_window()
+            bot.implicitly_wait(30)
+            bot.land_first_page()
+            bot.change_currency(currency="USD")
+            bot.select_place_to_go(
+                place_to_go=date["place"]
+            )
+            if i != 0:
+                bot.click_date_box()
+
+            bot.vocation_month(
+                month=date["month"]
+    
+            )
+
+            bot.select_dates(
+                checkin=date["checkin"],
+                checkout=date["checkout"]
+            )
+            bot.select_adult(
+                adult=date["adult"],
+                rooms=date["rooms"]
+            )
+            bot.click_search()
+            bot.apply_filtration()
+            bot.refresh()
+            # work around to let the bot grab data properly
+            bot.report_results()
 
 except Exception as e:
     if "in PATH" in str(e):
