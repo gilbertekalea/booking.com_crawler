@@ -1,14 +1,14 @@
+# This file will include a class with instance methods, that will be reposible to interact
+# with the website after we have some results, to apply filtrations and get the results we need.
 from selenium.common.exceptions import *
 from selenium.webdriver.remote.webdriver import WebDriver
-
-# This file will include a class with instance methods, that will be reposible to interact
-# with the website after we have some results, to apply filtrations
 
 
 class BookingFiltration:
     def __init__(self, driver: WebDriver):
         self.driver = driver
 
+    # This method will apply the filtration based on the given parameters.
     def apply_star_rating(self, *star_values):
         star_filtration_box = self.driver.find_element_by_css_selector(
             'div[data-filters-group="class"]'
@@ -28,6 +28,7 @@ class BookingFiltration:
                 else:
                     continue
 
+    #
     def sort_price(self):
         try:
             sort_by_lowest_price = self.driver.find_element_by_css_selector(

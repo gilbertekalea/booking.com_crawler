@@ -1,3 +1,6 @@
+# This file contain methods that allow the webdriver to perform pagenation functionality.
+
+# Can click next page, or return back to the first page.
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -10,6 +13,7 @@ class BookingPagenation:
     def __init__(self, page: WebDriver):
         self.page = page
 
+    # Get the property count from the page.
     def get_property_count(self):
         try:
             container_div = self.page.find_element(
@@ -25,6 +29,7 @@ class BookingPagenation:
             prop_count = 1
         return prop_count
 
+    # This method will return the page pagenation container element.
     def helpers(self):
         try:
             container_div = self.page.find_element(
@@ -41,6 +46,7 @@ class BookingPagenation:
 
         return page_nav_elem
 
+    # This method will return the next page element and clicks next page button.
     def go_next_page(self):
         try:
             page_nav_elem = self.helpers()
@@ -49,9 +55,10 @@ class BookingPagenation:
             )
             next_button.click()
 
-        except NoSuchElementException: 
+        except NoSuchElementException:
             pass
 
+    # This method will return the previous page element and clicks previous page button.
     def return_first_page(self):
         elem = self.helpers()
         ol_elem = elem.find_element(By.CSS_SELECTOR, 'ol[class="_5312cbccb"]')

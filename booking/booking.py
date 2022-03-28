@@ -1,10 +1,12 @@
-from typing_extensions import Self
+# Author: Gilbert Ekaale Amoding
+# Github: github.com/gilbekalea
+# Email:
+
 from booking import constant as const
 from booking.filtration import BookingFiltration
 from booking.report import BookingReport
 from booking import helpers
 import os
-import time
 import datetime
 import csv
 from prettytable import PrettyTable
@@ -13,18 +15,16 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import *
 
 
-# This file is responsible for describing the methods that later we are going to call
+# This file is responsible for describing the methods that later we are going to call 
 # where it will give the bot actions to take.
-
-# Todo
-#   Automate clicking the currency - in this case clicking on USD.
-#   send some text to search text element
-# Click on two dates, first one represents checkin and check out.
-#  Choose how number of people : adult, children, and rooms.
 
 
 class Booking(webdriver.Chrome):
-    """ """
+    """_summary_
+
+    Args:
+        webdriver (_type_): _description_
+    """
 
     # class variables
     date_checkin = ""
@@ -40,6 +40,7 @@ class Booking(webdriver.Chrome):
     ):
         self.driver_path = driver_path
         self.teardown = teardown
+
         # Best to put this in the context management code with 'with'
         # self.implicitly_wait(30)
         # self.maximize_window()
@@ -48,8 +49,10 @@ class Booking(webdriver.Chrome):
         os.environ["PATH"] += self.driver_path
         options = webdriver.ChromeOptions()
 
+        # ip_address = '199.195.254.168:8118'
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
+        # options.add_argument(f'proxy-server={ip_address}')
         # Used to instantiate the webdriver.chrome class so that the Booking will inherit all the methods.
         super(Booking, self).__init__(options=options)
 
@@ -58,6 +61,17 @@ class Booking(webdriver.Chrome):
     def __exit__(self, exc_type, exc_value, exc_tb):
         if self.teardown:
             self.quit()
+
+    def set_proxy(self):
+
+        ip_address = "199.195.254.168:8118"
+
+        self.desired_capabilities["proxy"] = {
+            "httpProxy": ip_address,
+            "ftpProxy": ip_address,
+            "sslProxy": ip_address,
+            "proxyType": "MANUAL",
+        }
 
     def land_first_page(self):
         self.get(const.BASE_URL)
@@ -82,6 +96,7 @@ class Booking(webdriver.Chrome):
         Booking.place = place_to_go
 
     def click_date_box(self):
+
         """
         clicks the previous month button after the first iteration.
         """
@@ -99,7 +114,10 @@ class Booking(webdriver.Chrome):
         print("click date !!!")
 
     def vocation_month(self, month: str):
-        """ """
+        """_summary_
+
+        :param month: the month you want to go to vacation.
+        """
         voc_month = helpers.when_is_vocation(month)
         today_date = datetime.datetime.now()
         year = today_date.year
@@ -150,6 +168,7 @@ class Booking(webdriver.Chrome):
     def calendar_prev_month_button(self):
         """
         clicks previous month icon
+        can be used to go back to previous month,
         """
         prev_month = self.find_element(
             By.CSS_SELECTOR, 'div[data-bui-ref="calendar-prev"]'
@@ -158,19 +177,19 @@ class Booking(webdriver.Chrome):
 
     def select_dates(self, checkin: str, checkout: str):
         """_summary_
-
         Booking.com only allows a maximum of 45 nights; approximately 1.5 months.
         For easy scraping we recommend you keep the date range between one month that is 2022-05-01 - 2022-06-01
         e.i a maximum of 30 days. By default, if the start_month is current_month, the checkin date will start from current_date i.e current month and day.
-        This is because, booking.com doesn't allow checkin of past dates.  
-        Otherwise, if you are planning checkin one month from now, then the checkin start date will always be the first day of 
-        desired month and checkout will be first day of next month. 
+        This is because, booking.com doesn't allow checkin of past dates.
+        Otherwise, if you are planning checkin one month from now, then the checkin start date will always be the first day of
+        desired month and checkout will be first day of next month.
         check helpers.py file on `construct_date()` also check `constants.py`
-        
-        Args:
-            checkin (str): Booking.com checkin date. 
 
-            checkout (str): Booking.com checkout date. 
+        Args:
+            checkin (str): Booking.com checkin date.
+
+            checkout (str): Booking.com checkout date.
+
         """
 
         check_in = self.find_element_by_css_selector(f'td[data-date="{checkin}"]')
@@ -184,7 +203,10 @@ class Booking(webdriver.Chrome):
 
     def select_adult(self, adult: int, rooms: int):
         """
-        param: adults
+        Selects the number of adults per room.
+        Args:
+        Adult (int): Number of adults per room.
+
         """
         selection_element = self.find_element_by_id("xp__guests__toggle")
         selection_element.click()
@@ -244,16 +266,19 @@ class Booking(webdriver.Chrome):
                 "Hotel Price",
                 "Hotel Type",
                 "Hotel Score",
-                "checkin", 
-                "checkout", 
+                "checkin",
+                "checkout",
                 "adult",
-                "rooms"
+                "rooms",
             ]
         )
         table.add_rows(collection)
         # print(table)
         with open(
-            f"data\{Booking.place}-booking.csv", "a", newline="", encoding="utf-8"
+            f"scraped_data\{Booking.place}-booking.csv",
+            "a",
+            newline="",
+            encoding="utf-8",
         ) as csvfile:
             fieldnames = [
                 "city",
@@ -262,12 +287,12 @@ class Booking(webdriver.Chrome):
                 "hotel_price",
                 "hotel_type",
                 "hotel_score",
-                "checkin", 
-                "checkout", 
+                "checkin",
+                "checkout",
                 "adult",
-                "rooms"
+                "rooms",
             ]
-        
+
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             # writer.writeheader()
             for _, row in enumerate(collection_list):
