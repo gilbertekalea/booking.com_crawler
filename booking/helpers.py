@@ -14,7 +14,6 @@ import csv
 from booking import constant as const
 # import constant as const
 
-
 def get_csv_data(file_name: str) -> list:
     """_summary_
     Get user data from csv file and return a list of dictionaries.
@@ -117,9 +116,11 @@ def generate_date_range(
     current_month = today_dates.strftime("%m")
 
     # if the start_month is the past month, the start_Month is set to the current month.
-    if start_month < int(current_month):
-        start_month = int(current_month)
-        
+    # Note: This is only applicable if you are using the date for booking.com website, otherwise, you can ignore this.
+    # Calculate the difference between the current month and start_month to determine how much additional months to add to start_month.
+    if start_month < int(current_month) or start_month == int(current_month):
+        start_month = start_month + abs(int(current_month) - start_month) + 1
+        print('start_month: ', start_month)
     # duration is greater than 22, set duration to 22.
     if duration > 22:
         duration = 22
@@ -127,7 +128,7 @@ def generate_date_range(
     for i in range(duration):
         date_range_dict = {}
         # date formating -> for From january to september. Add a prefix zero.
-        
+
         if int(start_month) + i <= 9:
             # formating month after september; do not add prefix zero.
             if int(start_month) + i + 1 <= 9:
@@ -241,6 +242,7 @@ def generate_date_range(
                     date_range_dict["adult"] = adult
                     date_range_dict["rooms"] = rooms
 
+            # if (int(start_month) + i + 1) > 12 fails, do the normal date generation.
             else:
                 date_range = f"{start_year}-{str((int(start_month)+i))}-01"
                 date_range_dict["checkin"] = date_range
@@ -290,7 +292,8 @@ def construct_date_range(
 if __name__ == "__main__":
     print(find_number_in_string("gilber777tekale2678282"))
     obj = construct_date_range(
-        start_year=2020, start_month=4, duration=22, place="Montreal", adult=1, rooms=1
+        start_year=2022, start_month=4, duration=12, place="Montreal", adult=2, rooms=2
     )
+    print(get_csv_data('../user_param/city_param.csv'))
     for item in obj:
         print(item["checkin"], item["checkout"], item["month"])

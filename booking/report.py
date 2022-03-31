@@ -8,22 +8,23 @@ import time, math
 
 # This file contains methods that will parse the specific data we need from each of the deal boxes.
 class BookingReport:
-    def __init__(self, boxes_section_element: WebDriver):
-        self.boxes_section_element = boxes_section_element
+    def __init__(self, web_driver: WebDriver):
+        self.web_driver = web_driver
 
     # This method will return a list of WebElements that are the deal boxes.
     def pull_deal_boxes(self):
+        
         return (
-            self.boxes_section_element.find_element(
+            self.web_driver.find_element(
                 By.CSS_SELECTOR, 'div[data-component="arp-properties-list"]'
             )
-            .find_element(By.CSS_SELECTOR, 'div[class="_814193827"]')
+            .find_element(By.CSS_SELECTOR, 'div[class="d4924c9e74"]')
             .find_elements(By.CSS_SELECTOR, 'div[data-testid="property-card"]')
         )
-
+    
     # This method will return a list of dictionaries that contain the data we need from each deal box.
     def pull_deal_box_attributes(self, checkin, checkout, adult, rooms, place):
-        next_page = BookingPagenation(page=self.boxes_section_element)
+        next_page = BookingPagenation(web_driver=self.web_driver)
         count = next_page.get_property_count()
         collection = []
         collection_list = []
@@ -111,7 +112,7 @@ class BookingReport:
                 collection_dict["rooms"] = rooms
                 # This will add the collection_dict to the collection_list.
                 collection_list.append(collection_dict)
-
+                
             print("page", i)
             #
             next_page.go_next_page()

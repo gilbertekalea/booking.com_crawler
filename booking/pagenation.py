@@ -10,13 +10,13 @@ from booking import helpers
 
 
 class BookingPagenation:
-    def __init__(self, page: WebDriver):
-        self.page = page
+    def __init__(self, web_driver: WebDriver):
+        self.web_driver = web_driver
 
     # Get the property count from the page.
     def get_property_count(self):
         try:
-            container_div = self.page.find_element(
+            container_div = self.web_driver.find_element(
                 By.CSS_SELECTOR, 'div[class="_b2280f5e6"]'
             )
             city_div = container_div.find_element(
@@ -32,7 +32,7 @@ class BookingPagenation:
     # This method will return the page pagenation container element.
     def helpers(self):
         try:
-            container_div = self.page.find_element(
+            container_div = self.web_driver.find_element(
                 By.CSS_SELECTOR, 'div[class="_b2280f5e6"]'
             )
             page_div_elem = container_div.find_element(
@@ -48,6 +48,7 @@ class BookingPagenation:
 
     # This method will return the next page element and clicks next page button.
     def go_next_page(self):
+
         try:
             page_nav_elem = self.helpers()
             next_button = page_nav_elem.find_element(

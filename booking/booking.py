@@ -3,7 +3,7 @@
 # Email:
 
 from booking import constant as const
-from booking.filtration import BookingFiltration
+from booking.filters import BookingFiltration
 from booking.report import BookingReport
 from booking import helpers
 import os
@@ -20,18 +20,13 @@ from selenium.common.exceptions import *
 
 
 class Booking(webdriver.Chrome):
-    """_summary_
-
-    Args:
-        webdriver (_type_): _description_
-    """
-
-    # class variables
-    date_checkin = ""
-    date_checkout = ""
-    adults = 0
-    rooms = 0
-    place = ""
+    
+    # private variables are not accessible outside the class.
+    _date_checkin = ""
+    _date_checkout= ""
+    _adults= 0
+    _rooms= 0
+    _place= ""
 
     def __init__(
         self,
@@ -201,7 +196,9 @@ class Booking(webdriver.Chrome):
         Booking.date_checkin = checkin
         Booking.date_checkout = checkout
 
+    # 
     def select_adult(self, adult: int, rooms: int):
+        # 
         """
         Selects the number of adults per room.
         Args:
@@ -250,7 +247,10 @@ class Booking(webdriver.Chrome):
         filter.sort_price()
 
     def report_results(self):
-        report = BookingReport(boxes_section_element=self)
+        """ _summary_
+        This method will report the results of the search found on the page.
+        """
+        report = BookingReport(web_driver=self)
         collection, collection_list = report.pull_deal_box_attributes(
             checkin=Booking.date_checkin,
             checkout=Booking.date_checkout,
@@ -258,6 +258,10 @@ class Booking(webdriver.Chrome):
             rooms=Booking.rooms,
             place=Booking.place,
         )
+
+        # save the collection to a file
+        print('saving to csv file')
+        Booking.save_results_to_csv(collection_list)
         table = PrettyTable(
             field_names=[
                 "City",
@@ -274,26 +278,56 @@ class Booking(webdriver.Chrome):
         )
         table.add_rows(collection)
         # print(table)
+        # with open(
+        #     f"scraped_data\{Booking.place}-booking.csv",
+        #     "a",
+        #     newline="",
+        #     encoding="utf-8",
+        # ) as csvfile:
+        #     fieldnames = [
+        #         "city",
+        #         "hotel_name",
+        #         "location",
+        #         "hotel_price",
+        #         "hotel_type",
+        #         "hotel_score",
+        #         "checkin",
+        #         "checkout",
+        #         "adult",
+        #         "rooms",
+        #     ]
+
+        #     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        #     # writer.writeheader()
+        #     for _, row in enumerate(collection_list):
+        #         writer.writerow(row)
+        return collection_list
+
+    @staticmethod
+    def save_results_to_csv(collection_list):
+        print('I just got called')
         with open(
             f"scraped_data\{Booking.place}-booking.csv",
             "a",
             newline="",
             encoding="utf-8",
         ) as csvfile:
-            fieldnames = [
-                "city",
-                "hotel_name",
-                "location",
-                "hotel_price",
-                "hotel_type",
-                "hotel_score",
-                "checkin",
-                "checkout",
-                "adult",
-                "rooms",
-            ]
+            # fieldnames = [
+            #     "city",
+            #     "hotel_name",
+            #     "location",
+            #     "hotel_price",
+            #     "hotel_type",
+            #     "hotel_score",
+            #     "checkin",
+            #     "checkout",
+            #     "adult",
+            #     "rooms",
+            # ]
 
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            # writer.writeheader()
+            writer = csv.DictWriter(csvfile, fieldnames=collection_list[0].keys())
+    
             for _, row in enumerate(collection_list):
                 writer.writerow(row)
+if __name__ == '__main__':
+    pass
