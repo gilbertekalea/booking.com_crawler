@@ -27,7 +27,7 @@ The bot returns the following data features saved in csv file.
 To get started using booking.com_crawler follow the following instructions.
 
 
-## Installation
+### Installation
 
 Two ways to intall the project. 
 
@@ -41,7 +41,7 @@ Two ways to intall the project.
 
 Once you have it installed, open code editor/terminal/command line of your choice and navigate to the folder where you saved the project files. 
 
-## Activate Virtual Environment
+### Activate Virtual Environment
 
 To activate virtual environment run the following script in command line. Please refer here [Python Virtual Environment](https://docs.python.org/3/tutorial/venv.html) on how to activate venv in your machine.
 
@@ -53,7 +53,7 @@ Now install the dependencies using the requirements.txt file.
 
             my_bot\project_folder_dir> pip -r requirements.txt
 
-## Selenium
+### Selenium
 
 In order for this project to work in your computer; You need to have a selenium and python installed in your computer. 
 I assume if you are interested in this project,you already know the basics of python and you have python installed. 
@@ -62,13 +62,13 @@ For window users: Open windows terminal and open project directory.
 
     pip install selenium
 
-## **Drivers**
+#### **Drivers**
 Selenium requires a driver to interface with the chosen browser. Firefox, for example, requires geckodriver, which needs to be installed before the below examples can be run. Make sure it’s in your PATH, e. g., place it in /usr/bin or /usr/local/bin.
 
 Read more about webdrivers here [Selenium Installation](https://pypi.org/project/selenium/) and [Selenium Official documentation](https://www.selenium.dev/documentation/webdriver/)
 
 
-## **Downloading WebDriver**
+#### **Downloading WebDriver**
 This project uses chromedriver. I understand that you're using a different browser;
 
 Here are download links for most popular browsers. 
