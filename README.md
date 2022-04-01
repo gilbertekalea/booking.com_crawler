@@ -114,7 +114,7 @@ To run the bot you simply type
  
  ## Event Loops
  
- There bot remains live until all event loops are completed.
+ The bot remains live until all event loops are completed.
  
  In the current version, there are three event loops:
  
@@ -122,6 +122,7 @@ To run the bot you simply type
 - The second event loop is for searching for the hotels. The length depend on the number of dates generated.
 - The third event loop is for parsing the data from each deal box and following the next page link. The range is determined by calculating the number of properties found divide by number of properties per page.
 - Example:
+- *runbot.py*
 - 
           with Booking() as bot:
                 # loop through each params given by user in csv file then call the get_user_data_from_csv function
@@ -129,9 +130,9 @@ To run the bot you simply type
                 
                First event loop
                for _, data in enumerate(helpers.get_csv_data("./client_input/destination_param.csv")):
-                        ....do something 
+                        GIVEN_DATE = ....do something 
                         
-                         This the second event loop
+                         the second event loop
                          for i, date in enumerate(GIVEN_DATE):
                               ....do something
                               
