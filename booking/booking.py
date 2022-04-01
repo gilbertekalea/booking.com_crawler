@@ -42,14 +42,14 @@ class Booking(webdriver.Chrome):
 
         # system level >>>>> operating system path to environment variables.
         os.environ["PATH"] += self.driver_path
-        options = webdriver.ChromeOptions()
-
+        chrome_options = webdriver.ChromeOptions()
+        
         # ip_address = '199.195.254.168:8118'
-        options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
         # options.add_argument(f'proxy-server={ip_address}')
         # Used to instantiate the webdriver.chrome class so that the Booking will inherit all the methods.
-        super(Booking, self).__init__(options=options)
+        super(Booking, self).__init__(options=chrome_options)
 
         # gives the child a full access to parent class methods.
 
