@@ -1,4 +1,5 @@
-# This file contains methods that will be used to convert data to different formats such as JSON, CSV, etc.
+# This file contains methods that will be used to convert data to different formats such as JSON, CSV, etc. 
+
 import csv, json
 
 
@@ -7,14 +8,13 @@ class ConvertData:
     def __init__(self, data):
         self.data = data
     
-
-    def convert_to_json(self,file_name: str):
-        with open(f'../data_request{file_name}.json', 'w') as json_file:
+    def convert_to_json(self,file_name: str, indent=4) -> None:
+        with open(f'../converted_data/{file_name}.json', 'w') as json_file:
             json.dump(self.data, json_file)
         return json.dumps(self.data)
 
     def convert_to_csv(self, file_name: str) -> None:
-        with open(f'../data_request/{file_name}.csv', 'w', newline='') as csv_file:
+        with open(f'../converted_data/{file_name}.csv', 'w', newline='') as csv_file:
 
             writer = csv.DictWriter(csv_file, fieldnames=self.data[0].keys())
             writer.writeheader()
