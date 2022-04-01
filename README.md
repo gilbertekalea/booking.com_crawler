@@ -7,6 +7,15 @@ The primary intended audience is anyone interest in data mining or web scraping 
 Booking.com is an online travel agency for lodging reservations & other travel products. The booking.com_crawler is an web scraping bot that crawls the booking.com website to extract hotel data. The crawler is designed to automatically generate date range and therefore the end-user is required to entered relevant data in a csv file found in a folder named. 
 
       client_input/destination_param.csv
+      
+## Bot Features
+
+      Filters 
+      Pagenation
+      Web automation
+      Data conversion - get in csv format or json format.
+      Proxy - still working on this functionality.
+      
 ## Data Features 
 
 The bot returns the following data features saved in csv file.
@@ -83,7 +92,54 @@ Here are download links for most popular browsers.
 
 Once you download your prefered driver; You can either save the .exe file in your project folder or you can save it somewhere in the your computer and provide the path. I recommend you save it in a different folder within the project folder or somewhere in your computer and use system path methods to access it. 
 
-## QUICK GUIDE
-### CLIENT_INPUT
+## Quick Guide
+### client_input folder
 
+ The first thing you would want to do is to set your variables. These will set the foundation on what the bot should do in terms which city to enter in booking.com     search box, generating date ranges etc. Open *client_input/destination_param.csv*  file and fill the data for  the following required variables.
+ 
+      place - Where you want to go, prefered to enter a city name. 
+      start_month - lays the foundation on where to start the checkin dates and updates the checkout. 
+      start_year - the start year.  
+      duration - How long is your stay. The duration helps the bot to generate date ranges starting from next_month and set checkin and checkout dates. 
+      adults - Number of adult,
+      rooms - number 0f rooms
+      
+### run the bot
 
+To run the bot you simply type
+
+      python runbot.py
+      
+ The bot you automatically open your boooking.com in chrome browser window. 
+ 
+ ## Event Loops
+ 
+ There bot remains live until all event loops are completed.
+ 
+ In the current version, there are three event loops:
+ 
+- The first event loop is for collecting the data from the csv file. The length of the list will be used to determine how many times the loop will run.
+- The second event loop is for searching for the hotels. The length depend on the number of dates generated.
+- The third event loop is for parsing the data from each deal box and following the next page link. The range is determined by calculating the number of properties found divide by number of properties per page.
+- Example:
+- 
+          with Booking() as bot:
+                # loop through each params given by user in csv file then call the get_user_data_from_csv function
+                # a wrapper loop will be used to call the get_user_data_from_csv function
+                
+               First event loop
+               for _, data in enumerate(helpers.get_csv_data("./client_input/destination_param.csv")):
+                        ....do something 
+                        
+                         This the second event loop
+                         for i, date in enumerate(GIVEN_DATE):
+                              ....do something
+                              
+                              The third loop is called when bot.report_results method is called. 
+                              bot.report_results()
+                              for i in range(math.ceil(count / 25)):
+                                 ...do something
+                                 next_page.go_next_page()
+                                 
+                             
+                           
