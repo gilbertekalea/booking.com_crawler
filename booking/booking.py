@@ -1,6 +1,6 @@
 # Author: Gilbert Ekaale Amoding
 # Github: github.com/gilbekalea
-# Email:
+# Email: 
 
 from booking import constant as const
 from booking.filters import BookingFiltration
@@ -32,6 +32,7 @@ class Booking(webdriver.Chrome):
         self,
         driver_path=r"C:\Users\gilbe\Desktop\workstation\projects\scrape\SeleniumDrivers",
         teardown=True,
+        
     ):
         self.driver_path = driver_path
         self.teardown = teardown
@@ -53,10 +54,11 @@ class Booking(webdriver.Chrome):
 
         # gives the child a full access to parent class methods.
 
-    def __exit__(self, exc_type, exc_value, exc_tb):
+    def __exit__(self):
         if self.teardown:
             self.quit()
 
+        
     def set_proxy(self):
 
         ip_address = "199.195.254.168:8118"
@@ -71,6 +73,10 @@ class Booking(webdriver.Chrome):
     def land_first_page(self):
         self.get(const.BASE_URL)
 
+    def get_current_window_handle(self):
+    
+        return self.window_handles
+    
     def change_currency(self, currency=None):
         currency_element = self.find_element_by_css_selector(
             'button[data-tooltip-text="Choose your currency"]'
@@ -91,7 +97,6 @@ class Booking(webdriver.Chrome):
         Booking.place = place_to_go
 
     def click_date_box(self):
-
         """
         clicks the previous month button after the first iteration.
         """
@@ -247,10 +252,11 @@ class Booking(webdriver.Chrome):
         filter.sort_price()
 
     def report_results(self):
+        
         """ _summary_
         This method will report the results of the search found on the page.
         """
-        report = BookingReport(web_driver=self)
+        report = BookingReport(report_driver=self)
         collection, collection_list = report.pull_deal_box_attributes(
             checkin=Booking.date_checkin,
             checkout=Booking.date_checkout,
@@ -258,10 +264,6 @@ class Booking(webdriver.Chrome):
             rooms=Booking.rooms,
             place=Booking.place,
         )
-
-        # save the collection to a file
-        print('saving to csv file')
-        Booking.save_results_to_csv(collection_list)
         table = PrettyTable(
             field_names=[
                 "City",
@@ -278,56 +280,16 @@ class Booking(webdriver.Chrome):
         )
         table.add_rows(collection)
         # print(table)
-        # with open(
-        #     f"scraped_data\{Booking.place}-booking.csv",
-        #     "a",
-        #     newline="",
-        #     encoding="utf-8",
-        # ) as csvfile:
-        #     fieldnames = [
-        #         "city",
-        #         "hotel_name",
-        #         "location",
-        #         "hotel_price",
-        #         "hotel_type",
-        #         "hotel_score",
-        #         "checkin",
-        #         "checkout",
-        #         "adult",
-        #         "rooms",
-        #     ]
 
-        #     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        #     # writer.writeheader()
-        #     for _, row in enumerate(collection_list):
-        #         writer.writerow(row)
-        return collection_list
-
-    @staticmethod
-    def save_results_to_csv(collection_list):
-        print('I just got called')
         with open(
             f"scraped_data\{Booking.place}-booking.csv",
             "a",
             newline="",
             encoding="utf-8",
         ) as csvfile:
-            # fieldnames = [
-            #     "city",
-            #     "hotel_name",
-            #     "location",
-            #     "hotel_price",
-            #     "hotel_type",
-            #     "hotel_score",
-            #     "checkin",
-            #     "checkout",
-            #     "adult",
-            #     "rooms",
-            # ]
 
             writer = csv.DictWriter(csvfile, fieldnames=collection_list[0].keys())
     
             for _, row in enumerate(collection_list):
                 writer.writerow(row)
-if __name__ == '__main__':
-    pass
+

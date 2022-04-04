@@ -82,9 +82,9 @@ def find_number_in_string(string: str) -> str:
         prop_count = prop_count + i
 
     # checks if prop count is empty string. Avoid returning empty string.
-    if prop_count == "":
-        prop_count = prop_count + "1"
-
+    # if prop_count == "":
+    #     prop_count = prop_count + "1"
+    
     return prop_count
 
 
