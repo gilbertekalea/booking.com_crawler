@@ -3,19 +3,21 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from booking.pagenation import BookingPagenation
+from booking.property_detail import PropertyDetail
 
 import time, math
 
 # This file contains methods that will parse the specific data we need from each of the deal boxes.
 class BookingReport:
-    def __init__(self, web_driver: WebDriver):
-        self.web_driver = web_driver
+    
+    def __init__(self, report_driver: WebDriver):
+        self.report_driver = report_driver
 
     # This method will return a list of WebElements that are the deal boxes.
     def pull_deal_boxes(self):
         
         return (
-            self.web_driver.find_element(
+            self.report_driver.find_element(
                 By.CSS_SELECTOR, 'div[data-component="arp-properties-list"]'
             )
             .find_element(By.CSS_SELECTOR, 'div[class="d4924c9e74"]')
@@ -24,19 +26,39 @@ class BookingReport:
     
     # This method will return a list of dictionaries that contain the data we need from each deal box.
     def pull_deal_box_attributes(self, checkin, checkout, adult, rooms, place):
-        next_page = BookingPagenation(web_driver=self.web_driver)
+        next_page = BookingPagenation(next_pager=self.report_driver)
+        detail = PropertyDetail(detail_page=self.report_driver)
         count = next_page.get_property_count()
+        print('count is: ', count)
+        if count == 0:
+            count = 1 # This is a hack to prevent an error.
+
         collection = []
         collection_list = []
 
+        # This was testing loop. It was used to test the pagenation.
+        # for i in range(12):
+        #     print('page', i)
+        #     next_page.go_next_page()
+        #     if i == 3:
+        #         break
+        
         # This loop will iterate through each deal box for given duration based on the number of properties on the page.
         # The loop will continue until the next page method returns False.
+
+        # The third event loop is for parsing the data from each deal box and following the next page link.
+        # The range is determined by calculating the number of properties found divide by number of properties per page.
+        print('property count', count)
         for i in range(math.ceil(count / 25)):
 
             # This loop will iterate through each deal box and pull the data we need.
             for deal_box in self.pull_deal_boxes():
                 print("pull_boxes for", checkin, checkout, adult, rooms, place)
                 # This dictionary will contain the data we need from each deal box.
+            
+                gift = detail.get_availability_button(deal_box)
+                print('gift is: ', gift)
+               
                 collection_dict = {}
                 # This will contain the name of the hotel.
                 hotel_name = (
@@ -112,10 +134,26 @@ class BookingReport:
                 collection_dict["rooms"] = rooms
                 # This will add the collection_dict to the collection_list.
                 collection_list.append(collection_dict)
-                
+
+                # This will check if the next page button is available.
+                # detail.get_availability_button(deal_box)
+
             print("page", i)
             #
             next_page.go_next_page()
             time.sleep(15)
 
         return collection, collection_list
+
+    def get_availability_button(self, deal_box):
+
+        try:
+            availability_button = deal_box.find_element(
+                By.CSS_SELECTOR, 'div[data-testid="availability-cta"]'
+            )
+            availability_button.click()
+
+        except NoSuchElementException:
+
+            availability_button = None
+            print('availability element was not found')
