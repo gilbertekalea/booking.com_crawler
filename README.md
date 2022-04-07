@@ -12,7 +12,7 @@ Booking.com is an online travel agency for lodging reservations & other travel p
 
  - Apply filters *can be customized*
  - Browser window switch
- - Click and follow link
+ - Click and follow the link
  - Perform Pagenation
  - Web automation
  - Data conversion - get in csv format or json format.
