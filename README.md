@@ -10,7 +10,7 @@ Booking.com is an online travel agency for lodging reservations & other travel p
       
 ## Bot Features
 
- - Apply filters Can be customized 
+ - Apply filters *can be customized*
  - Browser window switch
  - Click and follow link
  - Perform Pagenation
