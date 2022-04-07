@@ -1,4 +1,4 @@
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import *
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -12,10 +12,9 @@ class BookingReport:
     
     def __init__(self, report_driver: WebDriver):
         self.report_driver = report_driver
-
+    
     # This method will return a list of WebElements that are the deal boxes.
-    def pull_deal_boxes(self):
-        
+    def pull_deal_boxes(self): 
         return (
             self.report_driver.find_element(
                 By.CSS_SELECTOR, 'div[data-component="arp-properties-list"]'
@@ -55,17 +54,23 @@ class BookingReport:
             for deal_box in self.pull_deal_boxes():
                 print("pull_boxes for", checkin, checkout, adult, rooms, place)
                 # This dictionary will contain the data we need from each deal box.
-            
-                gift = detail.get_availability_button(deal_box)
-                print('gift is: ', gift)
-               
+                infor = detail.get_availability_button(deal_box)
+                print('image is: ', infor[0])
+                print('description is: ', infor[1])
                 collection_dict = {}
+
                 # This will contain the name of the hotel.
-                hotel_name = (
-                    deal_box.find_element(By.CSS_SELECTOR, 'div[data-testid="title"]')
-                    .get_attribute("innerHTML")
-                    .strip()
-                )
+                try:
+                    hotel_name = (
+                        deal_box.find_element(By.CSS_SELECTOR, 'div[data-testid="title"]')
+                        .get_attribute("innerHTML")
+                        .strip()
+                    )
+                except StaleElementReferenceException:
+                    hotel_name = deal_box.find_element(
+                        By.XPATH, '//a[contains(@data-testid, "title-link")]/div').find_element(
+                            By.CSS_SELECTOR, 'div[data-testid="title"]').get_attribute(
+                                "innerHTML").strip()
                 # This will contain the location of the hotel.
                 location = (
                     deal_box.find_element(
@@ -132,7 +137,7 @@ class BookingReport:
                 collection_dict["checkout"] = checkout
                 collection_dict["adult"] = adult
                 collection_dict["rooms"] = rooms
-                # This will add the collection_dict to the collection_list.
+    
                 collection_list.append(collection_dict)
 
                 # This will check if the next page button is available.
