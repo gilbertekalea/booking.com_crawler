@@ -10,26 +10,30 @@ Booking.com is an online travel agency for lodging reservations & other travel p
       
 ## Bot Features
 
-      Filters 
-      Pagenation
-      Web automation
-      Data conversion - get in csv format or json format.
-      Proxy - still working on this functionality.
+ - Apply filters *can be customized*
+ - Browser window switch
+ - Click and follow the link
+ - Perform Pagenation
+ - Web automation
+ - Data conversion - get in csv format or json format.
+ - Proxy - not yet implemented
       
 ## Data Features 
 
-The bot returns the following data features saved in csv file.
-
-      City Name 
-      Hotel Name 
-      location
-      Hotel Price 
-      Hotel Type
-      Hotel Score
-      checkin
-      checkout
-      adult
-      rooms
+- city_name 
+- property_name 
+- property_description
+- property_images
+- property_url_link
+- property_address
+- location
+- property_price 
+- property_type
+- property_score
+- checkin_date
+- checkout_date
+- number_of_adults
+- number_of_rooms
 
 ## Getting Started
 
