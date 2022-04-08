@@ -1,6 +1,6 @@
 # Author: Gilbert Ekaale Amoding
 # Github: github.com/gilbekalea
-# Email: 
+# Email:
 
 from booking import constant as const
 from booking.filters import BookingFiltration
@@ -15,24 +15,23 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import *
 
 
-# This file is responsible for describing the methods that later we are going to call 
+# This file is responsible for describing the methods that later we are going to call
 # where it will give the bot actions to take.
 
 
 class Booking(webdriver.Chrome):
-    
+
     # private variables are not accessible outside the class.
     _date_checkin = ""
-    _date_checkout= ""
-    _adults= 0
-    _rooms= 0
-    _place= ""
+    _date_checkout = ""
+    _adults = 0
+    _rooms = 0
+    _place = ""
 
     def __init__(
         self,
         driver_path=r"C:\Users\gilbe\Desktop\workstation\projects\scrape\SeleniumDrivers",
         teardown=True,
-        
     ):
         self.driver_path = driver_path
         self.teardown = teardown
@@ -44,7 +43,7 @@ class Booking(webdriver.Chrome):
         # system level >>>>> operating system path to environment variables.
         os.environ["PATH"] += self.driver_path
         chrome_options = webdriver.ChromeOptions()
-        
+
         # ip_address = '199.195.254.168:8118'
         chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
@@ -58,7 +57,6 @@ class Booking(webdriver.Chrome):
         if self.teardown:
             self.quit()
 
-        
     def set_proxy(self):
 
         ip_address = "199.195.254.168:8118"
@@ -74,9 +72,9 @@ class Booking(webdriver.Chrome):
         self.get(const.BASE_URL)
 
     def get_current_window_handle(self):
-    
+
         return self.window_handles
-    
+
     def change_currency(self, currency=None):
         currency_element = self.find_element_by_css_selector(
             'button[data-tooltip-text="Choose your currency"]'
@@ -201,9 +199,9 @@ class Booking(webdriver.Chrome):
         Booking.date_checkin = checkin
         Booking.date_checkout = checkout
 
-    # 
+    #
     def select_adult(self, adult: int, rooms: int):
-        # 
+        #
         """
         Selects the number of adults per room.
         Args:
@@ -252,8 +250,8 @@ class Booking(webdriver.Chrome):
         filter.sort_price()
 
     def report_results(self):
-        
-        """ _summary_
+
+        """_summary_
         This method will report the results of the search found on the page.
         """
         report = BookingReport(report_driver=self)
@@ -287,9 +285,7 @@ class Booking(webdriver.Chrome):
             newline="",
             encoding="utf-8",
         ) as csvfile:
-
             writer = csv.DictWriter(csvfile, fieldnames=collection_list[0].keys())
-    
+
             for _, row in enumerate(collection_list):
                 writer.writerow(row)
-

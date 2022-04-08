@@ -12,7 +12,9 @@ import datetime
 import csv
 
 from booking import constant as const
+
 # import constant as const
+
 
 def get_csv_data(file_name: str) -> list:
     """_summary_
@@ -84,7 +86,7 @@ def find_number_in_string(string: str) -> str:
     # checks if prop count is empty string. Avoid returning empty string.
     # if prop_count == "":
     #     prop_count = prop_count + "1"
-    
+
     return prop_count
 
 
@@ -120,7 +122,7 @@ def generate_date_range(
     # Calculate the difference between the current month and start_month to determine how much additional months to add to start_month.
     if start_month < int(current_month) or start_month == int(current_month):
         start_month = start_month + abs(int(current_month) - start_month) + 1
-        print('start_month: ', start_month)
+        print("start_month: ", start_month)
     # duration is greater than 22, set duration to 22.
     if duration > 22:
         duration = 22
@@ -286,7 +288,7 @@ def construct_date_range(
     # use numerical representation of months to compare which month is greater or less than current month.
     # The logic is that we assume if a month has high numerical representation compared to current month, it signifies future date.
     # For example: March > February: 3 > 2 or March < April, May, june... 3 < 4,5,6.... respectively.
-    return generate_date_range(start_year, start_month,duration, place, adult, rooms)
+    return generate_date_range(start_year, start_month, duration, place, adult, rooms)
 
 
 if __name__ == "__main__":
@@ -294,6 +296,6 @@ if __name__ == "__main__":
     obj = construct_date_range(
         start_year=2022, start_month=4, duration=12, place="Montreal", adult=2, rooms=2
     )
-    print(get_csv_data('../user_param/city_param.csv'))
+    print(get_csv_data("../user_param/city_param.csv"))
     for item in obj:
         print(item["checkin"], item["checkout"], item["month"])

@@ -10,7 +10,6 @@ from booking import helpers
 
 
 class BookingPagenation:
-
     def __init__(self, next_pager: WebDriver):
         self.next_pager = next_pager
 
@@ -18,7 +17,8 @@ class BookingPagenation:
     def get_property_count(self):
         try:
             container_div = self.next_pager.find_element(
-                By.CSS_SELECTOR, 'div[data-capla-component="b-search-web-searchresults/PropertiesListDesktop"]'
+                By.CSS_SELECTOR,
+                'div[data-capla-component="b-search-web-searchresults/PropertiesListDesktop"]',
             )
             propery_found = container_div.find_element(
                 By.CSS_SELECTOR, 'div[class="d8f77e681c"]'
@@ -51,10 +51,10 @@ class BookingPagenation:
     # This method will return the next page element and clicks next page button.
     def go_next_page(self):
 
-        '''
+        """
         This method will return the next page element and clicks next page button.
-        '''
-        print('go_next_page I hope this works')
+        """
+        print("go_next_page I hope this works")
         try:
             # container_div = self.next_pager.find_element(
             #     By.CSS_SELECTOR, 'div[class="_b2280f5e6"]'
@@ -65,8 +65,12 @@ class BookingPagenation:
             page_nav_elem = page_div_elem.find_element(
                 By.CSS_SELECTOR, 'nav[class="d493c719bc"]'
             )
-            elem_group = page_nav_elem.find_element(By.CSS_SELECTOR, 'div[role="group"]')
-            div_elem = elem_group.find_element(By.CSS_SELECTOR, 'div[class="f32a99c8d1 f78c3700d2"]')
+            elem_group = page_nav_elem.find_element(
+                By.CSS_SELECTOR, 'div[role="group"]'
+            )
+            div_elem = elem_group.find_element(
+                By.CSS_SELECTOR, 'div[class="f32a99c8d1 f78c3700d2"]'
+            )
 
             next_button = div_elem.find_element(
                 By.CSS_SELECTOR, 'button[aria-label="Next page"]'
@@ -74,8 +78,8 @@ class BookingPagenation:
             next_button.click()
 
         except NoSuchElementException:
-            
-            print('go_next_page NoSuchElementException')
+
+            print("go_next_page NoSuchElementException")
 
     # This method will return the previous page element and clicks previous page button.
     def return_first_page(self):
@@ -89,4 +93,3 @@ class BookingPagenation:
                 == "1"
             ):
                 item.click()
-
