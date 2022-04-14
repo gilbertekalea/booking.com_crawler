@@ -37,13 +37,13 @@ Booking.com is an online travel agency for lodging reservations & other travel p
 
 ## Getting Started
 
-### Clone the repository
+### 1. Clone the repository
 
 To clone this repository using Git, use
 
      git clone https://github.com/gilbertekalea/booking.com_crawler.git
 
-### Installing Dependencies
+### 2. Installing Dependencies
 The official python package manager for installing dependecies is **pip**. 
 
 If you're new to python please checkout this article on [how to install pip](https://stackoverflow.com/questions/4750806/how-can-i-install-pip-on-windows)
