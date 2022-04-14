@@ -7,9 +7,8 @@
 
 from booking.booking import Booking
 import time
-
 from booking import helpers
-
+ 
 try:
     with Booking() as bot:
 
@@ -18,7 +17,7 @@ try:
         for _, data in enumerate(
             helpers.get_csv_data("./client_input/destination_param.csv")
         ):
-
+        
             GIVEN_DATE = helpers.construct_date_range(
                 start_year=int(data["start_year"]),
                 start_month=int(data["start_month"]),
@@ -30,8 +29,6 @@ try:
 
             # The date are generated automatically by the function .
             for i, date in enumerate(GIVEN_DATE):
-                # bot.set_proxy()
-                # print(bot.desired_capabilities['proxy'])
                 bot.maximize_window()
                 bot.implicitly_wait(30)
                 bot.land_first_page()
@@ -48,9 +45,7 @@ try:
                 bot.apply_filtration()
                 bot.refresh()
                 bot.report_results()
-
                 time.sleep(15)
-
 
 except Exception as e:
 

@@ -3,18 +3,8 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import *
+from booking.browser_control import BrowserWindowControl
 import time
-
-
-class PageSetting:
-    """
-    A class containing methods that control the browser window and switch to different windows.
-    Can be used to switch to the main window, or to the detail page back and forth as long the requirements
-    """
-
-    pass
-
-
 class PropertyDetail:
 
     """
@@ -28,29 +18,29 @@ class PropertyDetail:
         self.detail_page = detail_page
 
     def get_availability_button(self, deal_box):
-
+       
         """
         This method will click the see availability button.
         The web element is located in the deal_box param.
         """
-
+        browser = BrowserWindowControl(browser=self.detail_page)
+        time.sleep(3)
         availability_button = deal_box.find_element(
             By.CSS_SELECTOR, 'div[data-testid="availability-cta"]'
         )
-        availability_button.click()
 
-        self.switch_window()
-        # print('current url is: ', self.detail_page.current_url)
-        # time.sleep(5)
+        availability_button.click()
+        
+        browser.switch_window()
 
         property_url = self.detail_page.current_url
         property_address = self.get_property_address()
-        print("property address is: ", property_address)
+        # print("property address is: ", property_address)
         img = self.get_property_gallery()
 
         description = self.get_property_description()
 
-        self.close_window()
+        browser.close_window()
 
         # except NoSuchElementException or ElementNotInteractableException or NoSuchAttributeException:
         #     # prevent browser from crashing and keep it going
@@ -59,68 +49,14 @@ class PropertyDetail:
         #     print('Sorry the availability button was not found')
         #     self.close_window()
 
-        return img, description, property_url
-
-    def get_window_handle(self) -> list:
-        """
-        returns a list window handles of the browser.
-        We try to restrict these handles to maximum of 2 windows. This is achieved by tearing down the current window and switching back to the main window.
-        returns a list of window handles.
-        """
-        return self.detail_page.window_handles
-
-    def switch_window(self):
-        """
-        Method that perform switching mechanism from the main window to the new window created after clicking a button.
-
-        """
-        # First get the window handles.
-        browser_handles = self.get_window_handle()
-        # Loop through the window handles and switch to the new window if a match is found.
-        for index, handle in enumerate(browser_handles):
-            if handle != self.detail_page.current_window_handle:
-                # print('switching to new window:', handle)
-                self.detail_page.switch_to.window(handle)
-                print("switch successful")
-                break
-
-    def switch_to_main_window(self) -> None:
-        """
-        Method to take the webdriver back to the main window.
-        """
-        handles = self.get_window_handle()
-        # print('switching back to main window: ', handles[0])
-        self.detail_page.switch_to.window(handles[0])
-
-    def tear_down_current_window(self) -> None:
-
-        """
-        This method will close the current window.
-
-        """
-
-        # This hack is needed in order for the function get_availability_button which expected to return a tuple to pull_deal_boxes_attribute in report.py.
-        # Once the window is switched to the main window, we have received the data from get_availability_button function, Now we can close the window the new window by going
-        # back to it and tear it down.
-
-        # self.detail_page.switch_to.window(handles[1])
-        self.detail_page.close()
-        self.switch_to_main_window()
-
-    def close_window(self) -> None:
-        """
-        This method will close the current window.
-        """
-        # This hack is needed in order for the function get_availability_button which expected to a tuple to pull_deal_boxes_attribute in report.py.
-        # Once the window is switched to the main window, we have received the data from get_availability_button function, Now we can close the window the new window by going
-        # back to it and tear it down.
-        self.tear_down_current_window()
-        # self.switch_to_main_window()
+        return img, description, property_url, property_address
 
     def get_property_address(self):
+
         """
         This method will return the property address.
         """
+        
         property_address = (
             self.detail_page.find_element(By.ID, "showMap2")
             .find_element(By.CSS_SELECTOR, 'span[data-source="top_link"]')

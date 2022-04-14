@@ -95,6 +95,7 @@ class Booking(webdriver.Chrome):
         Booking.place = place_to_go
 
     def click_date_box(self):
+
         """
         clicks the previous month button after the first iteration.
         """
@@ -189,7 +190,6 @@ class Booking(webdriver.Chrome):
             checkout (str): Booking.com checkout date.
 
         """
-
         check_in = self.find_element_by_css_selector(f'td[data-date="{checkin}"]')
         check_in.click()
 
@@ -249,36 +249,20 @@ class Booking(webdriver.Chrome):
         filter.apply_star_rating(3, 4, 5)
         filter.sort_price()
 
-    def report_results(self):
 
+    def report_results(self):
         """_summary_
         This method will report the results of the search found on the page.
         """
         report = BookingReport(report_driver=self)
-        collection, collection_list = report.pull_deal_box_attributes(
+        collection_list = report.pull_deal_box_attributes(
             checkin=Booking.date_checkin,
             checkout=Booking.date_checkout,
             adult=Booking.adults,
             rooms=Booking.rooms,
             place=Booking.place,
         )
-        table = PrettyTable(
-            field_names=[
-                "City",
-                "Hotel Name",
-                "location",
-                "Hotel Price",
-                "Hotel Type",
-                "Hotel Score",
-                "checkin",
-                "checkout",
-                "adult",
-                "rooms",
-            ]
-        )
-        table.add_rows(collection)
-        # print(table)
-
+       
         with open(
             f"scraped_data\{Booking.place}-booking.csv",
             "a",
@@ -286,6 +270,7 @@ class Booking(webdriver.Chrome):
             encoding="utf-8",
         ) as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=collection_list[0].keys())
-
+        
             for _, row in enumerate(collection_list):
                 writer.writerow(row)
+

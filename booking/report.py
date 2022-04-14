@@ -33,7 +33,7 @@ class BookingReport:
         if count == 0:
             count = 1  # This is a hack to prevent an error.
 
-        collection = []
+      
         collection_list = []
 
         # This was testing loop. It was used to test the pagenation.
@@ -54,9 +54,11 @@ class BookingReport:
             # This loop will iterate through each deal box and pull the data we need.
             for deal_box in self.pull_deal_boxes():
                 print("pull_boxes for", checkin, checkout, adult, rooms, place)
-                # This dictionary will contain the data we need from each deal box.
-                property_response = detail.get_availability_button(deal_box)
 
+                # This dictionary will contain the data we need from each deal box.
+                
+                img, description, property_url, property_address = detail.get_availability_button(deal_box)
+            
                 collection_dict = {}
 
                 # This will contain the name of the hotel.
@@ -140,26 +142,14 @@ class BookingReport:
                     print("no score")
                     property_score = str(0.0)
 
-                collection.append(
-                    [
-                        place,
-                        property_name,
-                        location,
-                        property_price,
-                        property_type,
-                        property_score,
-                        checkin,
-                        checkout,
-                        adult,
-                        rooms,
-                    ]
-                )
+            
                 # This will add the data to the collection_dict.
                 collection_dict["city_name"] = place
                 collection_dict["property_name"] = property_name
-                collection_dict["property_description"] = property_response[1]
-                collection_dict["property_image"] = property_response[0]
-                collection_dict["property_url"] = property_response[2]
+                collection_dict["property_description"] = description
+                collection_dict["property_image"] = img
+                collection_dict["property_url"] = property_url
+                collection_dict["property_address"] = property_address
                 collection_dict["location"] = location
                 collection_dict["property_price"] = property_price
                 collection_dict["property_type"] = property_type
@@ -175,4 +165,4 @@ class BookingReport:
             next_page.go_next_page()
             time.sleep(15)
 
-        return collection, collection_list
+        return collection_list
