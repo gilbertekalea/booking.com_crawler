@@ -1,17 +1,18 @@
-## booking.com_crawler
+## Booking.com_crawler
 
-An advanced crawler for extracting hotels data from *[Booking.com](https://www.booking.com/)*. The bot is powered by Selenium webdriver and purely written in python.
-The primary intended audience is anyone interest in data mining or web scraping and would want to scrape hotel data from booking.com website. if that's you; go ahead clone this repo or fork it. For audience who are new to programming I have worked so hard to make sure that the crawler works for you. However, there are few things you need to do on your own, Your need to setting up environmental variables for the webdriver. The webdriver is like an engine that controls the crawler behaior.
+An advanced web scraper for extracting hotel data from *[Booking.com](https://www.booking.com/)*. No sign up or log in required. 
+The code is meant to be simple, easy to use and modify. However,there are few configuration and setups that are necessary for the code program to work.
+
+Please read the following the following sections carefully.  
 
 ## Summary
-Booking.com is an online travel agency for lodging reservations & other travel products. The booking.com_crawler is an web scraping bot that crawls the booking.com website to extract hotel data. The crawler is designed to automatically generate date range and therefore the end-user is required to entered relevant data in a csv file found in a folder named. 
-
-      client_input/destination_param.csv
+Booking.com is an online travel agency for lodging reservations & other travel products. The booking.com_crawler is an web scraping bot that crawls the booking.com website to extract hotel data and stores the scrape data in csv file. 
       
-## Bot Features
+## Scraper Features
 
  - Apply filters *can be customized*
- - Browser window switch
+ - Switch browsers tabs
+ - Generate date ranges for checkin and checkout
  - Click and follow the link
  - Perform Pagenation
  - Web automation
@@ -19,7 +20,6 @@ Booking.com is an online travel agency for lodging reservations & other travel p
  - Proxy - not yet implemented
       
 ## Data Features 
-
 - city_name 
 - property_name 
 - property_description
@@ -37,22 +37,16 @@ Booking.com is an online travel agency for lodging reservations & other travel p
 
 ## Getting Started
 
-To get started using booking.com_crawler follow the following instructions.
+### Clone the repository
 
+To clone this repository using Git, use
 
-### Installation
+     git clone https://github.com/gilbertekalea/booking.com_crawler.git
 
-Two ways to intall the project. 
+### Installing Dependencies
+The official python package manager for installing dependecies is **pip**. 
 
-1. Clone repository.    
-
-            git clone https://github.com/gilbertekalea/booking.com_crawler.git
-
-2. Download the project files.
-
-            Save the files on your computer. 
-
-Once you have it installed, open code editor/terminal/command line of your choice and navigate to the folder where you saved the project files. 
+If you're new to python please checkout this article on [how to install pip](https://stackoverflow.com/questions/4750806/how-can-i-install-pip-on-windows)
 
 ### Activate Virtual Environment
 
@@ -60,7 +54,7 @@ To activate virtual environment run the following script in command line. Please
 
 For windows powershell : 
 
-            my_bot\project_folder_dir> venv\Scripts\activate.ps1 
+   my_bot\project_folder_dir> venv\Scripts\activate.ps1 
 
 Now install the dependencies using the requirements.txt file.
 
@@ -116,36 +110,7 @@ To run the bot you simply type
       
  The bot you automatically open your boooking.com in chrome browser window. 
  
- ## Event Loops
- 
- The bot remains live until all event loops are completed.
- 
- In the current version, there are three event loops:
- 
-- The first event loop is for collecting the data from the csv file. The length of the list will be used to determine how many times the loop will run.
-- The second event loop is for searching for the hotels. The length depend on the number of dates generated.
-- The third event loop is for parsing the data from each deal box and following the next page link. The range is determined by calculating the number of properties found divide by number of properties per page.
-- Example:
-       
-  * in runbot.py*
-- 
-          with Booking() as bot:
-                # loop through each params given by user in csv file then call the get_user_data_from_csv function
-                # a wrapper loop will be used to call the get_user_data_from_csv function
-                
-               First event loop
-               for _, data in enumerate(helpers.get_csv_data("./client_input/destination_param.csv")):
-                        GIVEN_DATE = ....do something 
-                        
-                         the second event loop
-                         for i, date in enumerate(GIVEN_DATE):
-                              ....do something
-                              
-                              The third loop is called when bot.report_results method is called. 
-                              bot.report_results()
-                              for i in range(math.ceil(count / 25)):
-                                 ...do something
-                                 next_page.go_next_page()
+
                                  
                              
                            
